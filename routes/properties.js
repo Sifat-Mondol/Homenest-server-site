@@ -20,7 +20,31 @@ function createPropertiesRouter(db) {
     }
   });
 
- 
+  // Get all properties
+  router.get('/', async (req, res) => {
+    try {
+      const { search, sortBy, page = 1, limit = 0 } = req.query;
+      const filter = {};
+      if (search) filter.name = { $regex: search, $options: 'i' };
+
+      let sort = { createdAt: -1 };
+      if (sortBy === 'price_asc') sort = { price: 1 };
+      if (sortBy === 'price_desc') sort = { price: -1 };
+      if (sortBy === 'date_asc') sort = { createdAt: 1 };
+      if (sortBy === 'date_desc') sort = { createdAt: -1 };
+
+      const cursor = properties.find(filter).sort(sort);
+      if (Number(limit) > 0) {
+        const skip = (Number(page) - 1) * Number(limit);
+        cursor.skip(skip).limit(Number(limit));
+      }
+
+      const items = await cursor.toArray();
+      res.send(items);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
 
  
   
