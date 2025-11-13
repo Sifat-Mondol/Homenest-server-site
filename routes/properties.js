@@ -57,7 +57,17 @@ function createPropertiesRouter(db) {
     }
   });
  
-
+ // Get property by id
+  router.get('/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const item = await properties.findOne({ _id: new ObjectId(id) });
+      if (!item) return res.status(404).send({ error: 'Property not found' });
+      res.send(item);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
 
  
 
