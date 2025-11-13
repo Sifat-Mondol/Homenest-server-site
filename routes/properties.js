@@ -96,7 +96,16 @@ function createPropertiesRouter(db) {
     }
   });
 
-
+  // Get properties by user email
+  router.get('/by-user/:email', async (req, res) => {
+    try {
+      const email = req.params.email;
+      const items = await properties.find({ userEmail: email }).sort({ createdAt: -1 }).toArray();
+      res.send(items);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
 
   return router;
 }
