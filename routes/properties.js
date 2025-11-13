@@ -71,6 +71,21 @@ function createPropertiesRouter(db) {
 
  
 
+
+  // Update property
+  router.put('/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const update = req.body;
+      update.updatedAt = new Date();
+      const result = await properties.updateOne({ _id: new ObjectId(id) }, { $set: update });
+      res.send(result);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
+
+
   return router;
 }
 
