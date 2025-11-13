@@ -85,6 +85,18 @@ function createPropertiesRouter(db) {
     }
   });
 
+  // Delete property
+  router.delete('/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const result = await properties.deleteOne({ _id: new ObjectId(id) });
+      res.send(result);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
+
+
 
   return router;
 }
