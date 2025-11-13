@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "server.js",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    }
+  ],
+  "env": {
+    "PORT": "5000",
+    "MONGO_URI": "mongodb+srv://simpleDBuser:9iTLeYSxJvq6VCuJ@cluster0.i8blvg9.mongodb.net/homenestDB?retryWrites=true&w=majority",
+    "DB_NAME": "homenestDB"
+  }
+}
