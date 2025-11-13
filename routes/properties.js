@@ -47,7 +47,15 @@ function createPropertiesRouter(db) {
   });
 
  
-  
+   // Featured properties
+  router.get('/featured', async (req, res) => {
+    try {
+      const items = await properties.find().sort({ createdAt: -1 }).limit(6).toArray();
+      res.send(items);
+    } catch (err) {
+      res.status(500).send({ error: err.message });
+    }
+  });
  
 
 
